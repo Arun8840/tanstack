@@ -1,0 +1,20 @@
+{
+  "projectName": "stack",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "bun",
+  "tailwind": true,
+  "addOnOptions": {},
+  "git": true,
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "eslint",
+    "nitro",
+    "start",
+    "shadcn",
+    "better-auth",
+    "tRPC",
+    "tanstack-query"
+  ]
+}
