@@ -4,19 +4,20 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 
-
 import appCss from '../styles.css?url'
 
-import type { QueryClient } from '@tanstack/react-query'
+import { QueryClientProvider, type QueryClient } from '@tanstack/react-query'
 
-import type { TRPCRouter } from '@/integrations/trpc/router'
 import type { TRPCOptionsProxy } from '@trpc/tanstack-react-query'
 import { Toaster } from '@/components/ui/sonner'
+import { AppRouter } from '@/integrations/trpc/router'
+import { queryClient, trpcClient } from '@/integrations/trpc/trpc'
+import { TRPCProvider } from '@/integrations/trpc/react'
 
 interface MyRouterContext {
   queryClient: QueryClient
 
-  trpc: TRPCOptionsProxy<TRPCRouter>
+  trpc: TRPCOptionsProxy<AppRouter>
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -51,7 +52,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <QueryClientProvider client={queryClient}>
+          <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+            {children}
+          </TRPCProvider>
+        </QueryClientProvider>
         <Toaster position='top-center' />
         <Scripts />
       </body>

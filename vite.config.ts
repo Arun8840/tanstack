@@ -15,7 +15,13 @@ const config = defineConfig({
     },
   },
   plugins: [
-    devtools(),
+    devtools({
+      // TanStack devtools starts a local "event bus" server (default port: 42069).
+      // If that port is already in use on your machine, Vite will crash on startup.
+      eventBusConfig: {
+        port: 42070,
+      },
+    }),
     nitro(),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
