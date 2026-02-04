@@ -6,13 +6,11 @@ import {
 
 import appCss from '../styles.css?url'
 
-import { QueryClientProvider, type QueryClient } from '@tanstack/react-query'
+import { type QueryClient } from '@tanstack/react-query'
 
 import type { TRPCOptionsProxy } from '@trpc/tanstack-react-query'
 import { Toaster } from '@/components/ui/sonner'
 import { AppRouter } from '@/integrations/trpc/router'
-import { queryClient, trpcClient } from '@/integrations/trpc/trpc'
-import { TRPCProvider } from '@/integrations/trpc/react'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -52,12 +50,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <QueryClientProvider client={queryClient}>
-          <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-            {children}
-          </TRPCProvider>
-        </QueryClientProvider>
-        <Toaster position='top-center' />
+        {children}
+
+        <Toaster position="top-center" />
         <Scripts />
       </body>
     </html>

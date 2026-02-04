@@ -1,53 +1,54 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { authClient } from "@/lib/auth-client"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { RegisterInputs, RegisterSchema } from "./schema/sign-up"
-import { Spinner } from "@/components/ui/spinner"
+} from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { authClient } from '@/lib/auth-client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { RegisterInputs, RegisterSchema } from './schema/sign-up'
+import { Spinner } from '@/components/ui/spinner'
 
 export function SignupForm() {
-
   const form = useForm<RegisterInputs>({
     defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      name: ""
+      email: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
     },
-    resolver: zodResolver(RegisterSchema)
+    resolver: zodResolver(RegisterSchema),
   })
 
   const isPending = form.formState.isSubmitting
 
   const createUser: SubmitHandler<RegisterInputs> = async (data) => {
     try {
-      await authClient.signUp.email({
-        email: data?.email,
-        name: data?.name,
-        password: data?.password,
-        callbackURL: "/login"
-      }, {
-        onSuccess: () => {
-          toast.success("Logged in successfully!");
-          window.location.href = "/dashboard";
+      await authClient.signUp.email(
+        {
+          email: data?.email,
+          name: data?.name,
+          password: data?.password,
+          callbackURL: '/login',
         },
-        onError: (error) => {
-          const e = error as unknown as Error;
-          toast.error(e?.message || "An unknown error occurred during login.");
+        {
+          onSuccess: () => {
+            toast.success('Logged in successfully!')
+          },
+          onError: (error) => {
+            const e = error as unknown as Error
+            toast.error(e?.message || 'An unknown error occurred during login.')
+          },
         },
-      });
+      )
     } catch (error) {
-      const e = error as Error;
-      toast.error(e?.message || "An unknown error occurred during login.");
+      const e = error as Error
+      toast.error(e?.message || 'An unknown error occurred during login.')
     }
   }
   return (
@@ -134,9 +135,7 @@ export function SignupForm() {
         <FieldGroup>
           <Field>
             <Button type="submit" disabled={form.formState.isSubmitting}>
-              {isPending && (
-                <Spinner />
-              )}
+              {isPending && <Spinner />}
               Create Account
             </Button>
             <Button variant="outline" type="button">

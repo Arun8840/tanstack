@@ -1,8 +1,10 @@
 import { AppSidebar } from '@/components/app-sidebar'
 import { Separator } from '@/components/ui/separator'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { queryClient } from '@/integrations/trpc/trpc'
-import { QueryClientProvider } from '@tanstack/react-query'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/(dashboard)')({
@@ -10,7 +12,7 @@ export const Route = createFileRoute('/(dashboard)')({
 })
 
 function RouteComponent() {
-  return <QueryClientProvider client={queryClient}>
+  return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
@@ -21,7 +23,6 @@ function RouteComponent() {
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
@@ -29,5 +30,5 @@ function RouteComponent() {
         </div>
       </SidebarInset>
     </SidebarProvider>
-  </QueryClientProvider>
+  )
 }

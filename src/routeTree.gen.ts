@@ -13,6 +13,7 @@ import { Route as dashboardRouteRouteImport } from './routes/(dashboard)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as dashboardIndexRouteImport } from './routes/(dashboard)/index'
 import { Route as dashboardThemesIndexRouteImport } from './routes/(dashboard)/themes/index'
+import { Route as authTwoMfaIndexRouteImport } from './routes/(auth)/two-mfa/index'
 import { Route as authSignUpIndexRouteImport } from './routes/(auth)/sign-up/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
@@ -35,6 +36,11 @@ const dashboardThemesIndexRoute = dashboardThemesIndexRouteImport.update({
   id: '/themes/',
   path: '/themes/',
   getParentRoute: () => dashboardRouteRoute,
+} as any)
+const authTwoMfaIndexRoute = authTwoMfaIndexRouteImport.update({
+  id: '/two-mfa/',
+  path: '/two-mfa/',
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authSignUpIndexRoute = authSignUpIndexRouteImport.update({
   id: '/sign-up/',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/login/': typeof authLoginIndexRoute
   '/sign-up/': typeof authSignUpIndexRoute
+  '/two-mfa/': typeof authTwoMfaIndexRoute
   '/themes/': typeof dashboardThemesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -71,6 +78,7 @@ export interface FileRoutesByTo {
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/login': typeof authLoginIndexRoute
   '/sign-up': typeof authSignUpIndexRoute
+  '/two-mfa': typeof authTwoMfaIndexRoute
   '/themes': typeof dashboardThemesIndexRoute
 }
 export interface FileRoutesById {
@@ -82,6 +90,7 @@ export interface FileRoutesById {
   '/api/trpc/$': typeof ApiTrpcSplatRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/sign-up/': typeof authSignUpIndexRoute
+  '/(auth)/two-mfa/': typeof authTwoMfaIndexRoute
   '/(dashboard)/themes/': typeof dashboardThemesIndexRoute
 }
 export interface FileRouteTypes {
@@ -92,9 +101,17 @@ export interface FileRouteTypes {
     | '/api/trpc/$'
     | '/login/'
     | '/sign-up/'
+    | '/two-mfa/'
     | '/themes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/auth/$' | '/api/trpc/$' | '/login' | '/sign-up' | '/themes'
+  to:
+    | '/'
+    | '/api/auth/$'
+    | '/api/trpc/$'
+    | '/login'
+    | '/sign-up'
+    | '/two-mfa'
+    | '/themes'
   id:
     | '__root__'
     | '/(auth)'
@@ -104,6 +121,7 @@ export interface FileRouteTypes {
     | '/api/trpc/$'
     | '/(auth)/login/'
     | '/(auth)/sign-up/'
+    | '/(auth)/two-mfa/'
     | '/(dashboard)/themes/'
   fileRoutesById: FileRoutesById
 }
@@ -144,6 +162,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof dashboardThemesIndexRouteImport
       parentRoute: typeof dashboardRouteRoute
     }
+    '/(auth)/two-mfa/': {
+      id: '/(auth)/two-mfa/'
+      path: '/two-mfa'
+      fullPath: '/two-mfa/'
+      preLoaderRoute: typeof authTwoMfaIndexRouteImport
+      parentRoute: typeof authRouteRoute
+    }
     '/(auth)/sign-up/': {
       id: '/(auth)/sign-up/'
       path: '/sign-up'
@@ -178,11 +203,13 @@ declare module '@tanstack/react-router' {
 interface authRouteRouteChildren {
   authLoginIndexRoute: typeof authLoginIndexRoute
   authSignUpIndexRoute: typeof authSignUpIndexRoute
+  authTwoMfaIndexRoute: typeof authTwoMfaIndexRoute
 }
 
 const authRouteRouteChildren: authRouteRouteChildren = {
   authLoginIndexRoute: authLoginIndexRoute,
   authSignUpIndexRoute: authSignUpIndexRoute,
+  authTwoMfaIndexRoute: authTwoMfaIndexRoute,
 }
 
 const authRouteRouteWithChildren = authRouteRoute._addFileChildren(

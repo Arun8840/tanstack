@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Field,
   FieldDescription,
@@ -7,52 +7,59 @@ import {
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { LoginInput, loginSchema } from "./schema/login"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "@tanstack/react-router"
-import { Github } from "lucide-react"
-import { authClient } from "@/lib/auth-client"
-import { toast } from "sonner"
-import { Spinner } from "@/components/ui/spinner"
+} from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { LoginInput, loginSchema } from './schema/login'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { Github } from 'lucide-react'
+import { authClient } from '@/lib/auth-client'
+import { toast } from 'sonner'
+import { Spinner } from '@/components/ui/spinner'
 
 export function LoginForm({
   className,
   ...props
-}: React.ComponentProps<"form">) {
-
+}: React.ComponentProps<'form'>) {
+  const navigate = useNavigate()
   const form = useForm<LoginInput>({
     defaultValues: {
-      email: "",
-      password: ""
+      email: '',
+      password: '',
     },
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(loginSchema),
   })
 
   const isSubmitting = form.formState?.isSubmitting
   const loginUser: SubmitHandler<LoginInput> = async (data) => {
     try {
-      await authClient.signIn.email({
-        ...data,
-        callbackURL: "/"
-      }, {
-        onSuccess: () => {
-          toast.success("Logged in successfully!");
+      await authClient.signIn.email(
+        {
+          ...data,
+          callbackURL: '/',
         },
-        onError: (error) => {
-          const e = error as unknown as Error;
-          toast.error(e?.message || "An unknown error occurred during login.");
+        {
+          onSuccess: async (context) => {
+            toast.success('Logged in successfully!')
+          },
+          onError: (error) => {
+            const e = error as unknown as Error
+            toast.error(e?.message || 'An unknown error occurred during login.')
+          },
         },
-      });
+      )
     } catch (error) {
-      const e = error as Error;
-      toast.error(e?.message || "An unknown error occurred during login.");
+      const e = error as Error
+      toast.error(e?.message || 'An unknown error occurred during login.')
     }
   }
   return (
-    <form onSubmit={form.handleSubmit(loginUser)} className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      onSubmit={form.handleSubmit(loginUser)}
+      className={cn('flex flex-col gap-6', className)}
+      {...props}
+    >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
@@ -117,7 +124,7 @@ export function LoginForm({
             Login with GitHub
           </Button>
           <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <Link to="/sign-up" className="underline underline-offset-4">
               Sign up
             </Link>
