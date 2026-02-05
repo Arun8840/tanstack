@@ -53,6 +53,10 @@ const data = {
         {
           title: "Themes",
           url: "/themes",
+        },
+        {
+          title: "Security",
+          url: "/security",
         }
       ],
     }

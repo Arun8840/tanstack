@@ -32,28 +32,31 @@ export function LoginForm({
   })
 
   const isSubmitting = form.formState?.isSubmitting
-  const loginUser: SubmitHandler<LoginInput> = async (data) => {
-    try {
-      await authClient.signIn.email(
-        {
-          ...data,
-          callbackURL: '/',
+  const loginUser: SubmitHandler<LoginInput> = async (payload) => {
+    await authClient.signIn.email(
+      payload,
+      {
+        onSuccess: ({ data }) => {
+          if (data?.twoFactorRedirect) {
+            navigate({ to: "/two-mfa" })
+            return
+          }
+
+          toast.success("Logged in successfully!")
+          navigate({ to: "/" })
         },
-        {
-          onSuccess: async (context) => {
-            toast.success('Logged in successfully!')
-          },
-          onError: (error) => {
-            const e = error as unknown as Error
-            toast.error(e?.message || 'An unknown error occurred during login.')
-          },
+
+        onError: (error) => {
+          const e = error as unknown as Error
+          toast.error(
+            e.message ??
+            "Unable to login. Please try again."
+          )
         },
-      )
-    } catch (error) {
-      const e = error as Error
-      toast.error(e?.message || 'An unknown error occurred during login.')
-    }
+      }
+    )
   }
+
   return (
     <form
       onSubmit={form.handleSubmit(loginUser)}

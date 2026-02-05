@@ -13,6 +13,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { RegisterInputs, RegisterSchema } from './schema/sign-up'
 import { Spinner } from '@/components/ui/spinner'
+import { Link } from '@tanstack/react-router'
 
 export function SignupForm() {
   const form = useForm<RegisterInputs>({
@@ -38,7 +39,7 @@ export function SignupForm() {
         },
         {
           onSuccess: () => {
-            toast.success('Logged in successfully!')
+            toast.success('Created in successfully!')
           },
           onError: (error) => {
             const e = error as unknown as Error
@@ -142,7 +143,7 @@ export function SignupForm() {
               Sign up with Google
             </Button>
             <FieldDescription className="px-6 text-center">
-              Already have an account? <a href="#">Sign in</a>
+              Already have an account? <Link to="/login">Sign in</Link>
             </FieldDescription>
           </Field>
         </FieldGroup>
