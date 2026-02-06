@@ -33,28 +33,20 @@ export function LoginForm({
 
   const isSubmitting = form.formState?.isSubmitting
   const loginUser: SubmitHandler<LoginInput> = async (payload) => {
-    await authClient.signIn.email(
-      payload,
-      {
-        onSuccess: ({ data }) => {
-          if (data?.twoFactorRedirect) {
-            navigate({ to: "/two-mfa" })
-            return
-          }
+    const res = await authClient.signIn.email(payload)
+    debugger
+    if (res?.error) {
+      toast.error(res.error.message)
+      return
+    }
+    // @ts-expect-error twoFactorRedirect may not yet be typed in the API response
+    if (res?.data?.twoFactorRedirect) {
+      navigate({ to: '/two-mfa' })
+      return
+    }
 
-          toast.success("Logged in successfully!")
-          navigate({ to: "/" })
-        },
-
-        onError: (error) => {
-          const e = error as unknown as Error
-          toast.error(
-            e.message ??
-            "Unable to login. Please try again."
-          )
-        },
-      }
-    )
+    toast.success('Logged in successfully!')
+    navigate({ to: '/' })
   }
 
   return (

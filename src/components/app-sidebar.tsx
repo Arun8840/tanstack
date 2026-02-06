@@ -1,65 +1,77 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 import {
   AudioWaveform,
   Command,
   GalleryVerticalEnd,
   LayoutDashboard,
-} from "lucide-react"
+  Tornado,
+} from 'lucide-react'
 
-import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from '@/components/nav-main'
+import { NavUser } from '@/components/nav-user'
+import { TeamSwitcher } from '@/components/team-switcher'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-
+} from '@/components/ui/sidebar'
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: 'shadcn',
+    email: 'm@example.com',
+    avatar: '/avatars/shadcn.jpg',
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: 'Acme Inc',
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
+      plan: 'Enterprise',
     },
     {
-      name: "Acme Corp.",
+      name: 'Acme Corp.',
       logo: AudioWaveform,
-      plan: "Startup",
+      plan: 'Startup',
     },
     {
-      name: "Evil Corp.",
+      name: 'Evil Corp.',
       logo: Command,
-      plan: "Free",
+      plan: 'Free',
     },
   ],
   navMain: [
     {
-      title: "Dashboard",
-      url: "/",
+      title: 'Dashboard',
+      url: '/',
       icon: LayoutDashboard,
       isActive: true,
       items: [
         {
-          title: "Themes",
-          url: "/themes",
+          title: 'Themes',
+          url: '/themes',
         },
         {
-          title: "Security",
-          url: "/security",
-        }
+          title: 'Security',
+          url: '/security',
+        },
       ],
-    }
+    },
+    {
+      title: 'Todos',
+      url: '/',
+      icon: Tornado,
+      isActive: true,
+      items: [
+        {
+          title: 'Tasks',
+          url: '/tasks',
+        },
+      ],
+    },
   ],
 }
 

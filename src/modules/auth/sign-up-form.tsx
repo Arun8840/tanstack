@@ -14,6 +14,7 @@ import { toast } from 'sonner'
 import { RegisterInputs, RegisterSchema } from './schema/sign-up'
 import { Spinner } from '@/components/ui/spinner'
 import { Link } from '@tanstack/react-router'
+import { APIError } from 'better-auth'
 
 export function SignupForm() {
   const form = useForm<RegisterInputs>({
@@ -41,15 +42,12 @@ export function SignupForm() {
           onSuccess: () => {
             toast.success('Created in successfully!')
           },
-          onError: (error) => {
-            const e = error as unknown as Error
-            toast.error(e?.message || 'An unknown error occurred during login.')
-          },
         },
       )
     } catch (error) {
-      const e = error as Error
-      toast.error(e?.message || 'An unknown error occurred during login.')
+      if (error instanceof APIError) {
+        toast.error(error?.message || 'An unknown error occurred during login.')
+      }
     }
   }
   return (
